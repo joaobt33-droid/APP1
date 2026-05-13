@@ -1,0 +1,141 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["pt", "student"] },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "StudentProfile": {
+      "title": "Student Profile",
+      "description": "Detailed profile for a student, managed by a PT",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "ptId": { "type": "string" },
+        "age": { "type": "number" },
+        "gender": { "type": "string" },
+        "weight": { "type": "number" },
+        "height": { "type": "number" },
+        "bodyFat": { "type": "number" },
+        "pathologies": { "type": "string" },
+        "limitations": { "type": "string" },
+        "medications": { "type": "string" },
+        "objectives": { "type": "string" },
+        "trainingLevel": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive", "pending"] }
+      },
+      "required": ["userId", "ptId"]
+    },
+    "WorkoutPlan": {
+      "title": "Workout Plan",
+      "description": "A periodized plan containing multiple workouts",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "ptId": { "type": "string" },
+        "studentId": { "type": "string" },
+        "goal": { "type": "string" },
+        "startDate": { "type": "string", "format": "date-time" },
+        "endDate": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["active", "draft", "completed"] }
+      },
+      "required": ["title", "ptId", "studentId"]
+    },
+    "Workout": {
+      "title": "Workout",
+      "description": "A single training session (e.g., Workout A)",
+      "type": "object",
+      "properties": {
+        "planId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["planId", "name"]
+    },
+    "ExerciseInstance": {
+      "title": "Exercise Instance",
+      "description": "An exercise assigned to a workout with specific parameters",
+      "type": "object",
+      "properties": {
+        "workoutId": { "type": "string" },
+        "exerciseId": { "type": "string" },
+        "name": { "type": "string" },
+        "sets": { "type": "number" },
+        "reps": { "type": "string" },
+        "rest": { "type": "string" },
+        "rpe": { "type": "number" },
+        "notes": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["workoutId", "name"]
+    },
+    "WorkoutLog": {
+      "title": "Workout Log",
+      "description": "Record of a completed workout session",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "workoutId": { "type": "string" },
+        "completedAt": { "type": "string", "format": "date-time" },
+        "duration": { "type": "number" },
+        "feedback": { "type": "string" },
+        "effort": { "type": "number" },
+        "mood": { "type": "string" }
+      },
+      "required": ["studentId", "workoutId", "completedAt"]
+    },
+    "FinancialRecord": {
+      "title": "Financial Record",
+      "description": "Payment tracking for personal trainers",
+      "type": "object",
+      "properties": {
+        "ptId": { "type": "string" },
+        "studentId": { "type": "string" },
+        "amount": { "type": "number" },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["paid", "pending", "overdue"] }
+      },
+      "required": ["ptId", "studentId", "amount", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User base collection"
+    },
+    "/students/{studentId}": {
+      "schema": "StudentProfile",
+      "description": "Detailed student information"
+    },
+    "/plans/{planId}": {
+      "schema": "WorkoutPlan",
+      "description": "Training plans"
+    },
+    "/workouts/{workoutId}": {
+      "schema": "Workout",
+      "description": "Individual training sessions"
+    },
+    "/exerciseInstances/{instanceId}": {
+      "schema": "ExerciseInstance",
+      "description": "Exercises within a workout"
+    },
+    "/logs/{logId}": {
+      "schema": "WorkoutLog",
+      "description": "Training history"
+    },
+    "/financials/{recordId}": {
+      "schema": "FinancialRecord",
+      "description": "Payment records"
+    }
+  }
+}

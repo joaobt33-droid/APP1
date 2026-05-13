@@ -1,0 +1,14 @@
+{
+  "name": "TrainerPro",
+  "description": "Plataforma completa de consultoria online para Personal Trainers e alunos, com IA para prescrição de treinos e acompanhamento profissional.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "AI Workout Generation",
+    "Real-time Chat",
+    "Finance Management",
+    "Progress Tracking"
+  ]
+}
